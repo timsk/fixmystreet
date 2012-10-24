@@ -7,8 +7,10 @@
             <a href="[% c.uri_for('/report', p.problem.id ) %]">[% p.problem.title | html %]</a>
             <small>[% prettify_epoch( p.problem.confirmed_local.epoch, 1 ) %], [% dist %]km</small>
             [% IF p.problem.is_fixed %]
+                [%# TRANS this label appears above a pin on a map, and indicates that a problem has been labelled as "fixed" %]
                 <small>[% loc('(fixed)') %]</small>
             [% ELSIF p.problem.is_closed %]
+                [%# TRANS this label appears above a pin on a map, and indicates that a problem report has been labelled as "closed" by the council, i.e. no action has been taken because the problem doesn't exist, or isn't the responsibility of the council, etc. %]
                 <small>[% loc('(closed)') %]</small>
             [% END %]
         </li>
