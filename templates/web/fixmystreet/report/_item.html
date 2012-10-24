@@ -20,6 +20,7 @@
         [% IF NOT no_fixed AND problem.is_fixed %]
             [% loc('(fixed)') %]
         [% ELSIF NOT no_fixed AND problem.is_closed %]
+            [%# TRANS this is a label referring to a single reported problem, indicating that the report about the problem is now 'closed' %]
             [% loc('(closed)') %]
         [% END %]</small>
 </a>
