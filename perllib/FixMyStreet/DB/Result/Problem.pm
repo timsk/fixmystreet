@@ -493,8 +493,10 @@ sub meta_line {
         my $category = _($problem->category);
         utf8::decode($category);
         if ($problem->anonymous) {
-            $meta = sprintf(_('%s, reported anonymously at %s'), $category, $date_time);
+						# TRANS first %s is a category, second %s is a date and time
+						$meta = sprintf(_('%s, reported anonymously at %s'), $category, $date_time);
         } else {
+						# TRANS first %s is a category, second %s is a user's name, third %s is a date and time
             $meta = sprintf(_('%s, reported by %s at %s'), $category, $problem->name, $date_time);
         }
 
@@ -502,50 +504,61 @@ sub meta_line {
 
         if ( $problem->anonymous ) {
             if (    $problem->service
+                # TRANS "Other" is the name of a problem category, where no other category is suitable
                 and $problem->category && $problem->category ne _('Other') )
             {
                 $meta =
+				# TRANS first %s is the name of a service, second %s is a category, third %s is a date and time
                 sprintf( _('Reported by %s in the %s category anonymously at %s'),
                     $problem->service, $problem->category, $date_time );
             }
             elsif ( $problem->service ) {
+				# TRANS first %s is the name of a service, second %s is a date and time
                 $meta = sprintf( _('Reported by %s anonymously at %s'),
                     $problem->service, $date_time );
             }
+			# TRANS "Other" is the name of a problem category, where no other category is suitable
             elsif ( $problem->category and $problem->category ne _('Other') ) {
+				# TRANS first %s is a category, second %s is a date and time
                 $meta = sprintf( _('Reported in the %s category anonymously at %s'),
                     $problem->category, $date_time );
             }
             else {
+				# TRANS %s is a date and time
                 $meta = sprintf( _('Reported anonymously at %s'), $date_time );
             }
         }
         else {
             if (    $problem->service
+				# TRANS "Other" is the name of a problem category, where no other category is suitable
                 and $problem->category && $problem->category ne _('Other') )
             {
                 $meta = sprintf(
+        			# TRANS first %s is the name of a service, second %s is a category, third %s is a person's name, fourth %s is a date and time
                     _('Reported by %s in the %s category by %s at %s'),
                     $problem->service, $problem->category,
                     $problem->name,    $date_time
                 );
             }
             elsif ( $problem->service ) {
+        		# TRANS first %s is the name of a service, second %s is a person's name, third %s is a date and time
                 $meta = sprintf( _('Reported by %s by %s at %s'),
                     $problem->service, $problem->name, $date_time );
             }
+			# TRANS "Other" is the name of a problem category, where no other category is suitable
             elsif ( $problem->category and $problem->category ne _('Other') ) {
+        		# TRANS first %s is a category, second %s is a person's name, third %s is a date and time
                 $meta = sprintf( _('Reported in the %s category by %s at %s'),
                     $problem->category, $problem->name, $date_time );
             }
             else {
                 $meta =
+        		# TRANS first %s is a problem name, second %s is a date and time
                 sprintf( _('Reported by %s at %s'), $problem->name, $date_time );
             }
         }
 
     }
-
     $meta .= '; <strong>' . _('there is no pin shown as the user did not use the map') . '</strong>'
         unless $problem->used_map;
 
@@ -608,8 +621,10 @@ sub processed_summary_string {
     }
     if ($problem->can_display_external_id) {
         if ($duration_clause) {
+            # TRANS %s is the external ID for a problem, as supplied by a council
             $external_ref_clause = sprintf(_('council ref:&nbsp;%s'), $problem->external_id);
         } else {
+            # TRANS first %s is the name of an external body, second %s is the external ID for a problem, as supplied by that body
             $external_ref_clause = sprintf(_('%s ref:&nbsp;%s'), $problem->external_body, $problem->external_id);
         }
     }
@@ -623,6 +638,7 @@ sub processed_summary_string {
 sub duration_string {
     my ( $problem, $c ) = @_;
     my $body = $problem->body( $c );
+    # TRANS first %s is name of authority to which a message was sent, second %s reads "3 minutes" or similar
     return sprintf(_('Sent to %s %s later'), $body,
         Utils::prettify_duration($problem->whensent_local->epoch - $problem->confirmed_local->epoch, 'minute')
     );
@@ -695,6 +711,7 @@ sub update_from_open311_service_request {
 
             if ( !$status_notes ) {
                 # FIXME - better text here
+                # TRANS this is a status label, indicating that a problem has been marked as "closed" by a council, i.e. no action taken
                 $status_notes = _('Closed by council');
             }
         }
